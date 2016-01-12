@@ -5,7 +5,7 @@
 // Login   <chauvo_t@epitech.net>
 //
 // Started on  Sun Dec  6 00:16:48 2015 chauvo_t
-// Last update Thu Jan  7 21:50:43 2016 chauvo_t
+// Last update Tue Jan 12 15:41:03 2016 chauvo_t
 //
 
 #include <iostream>
@@ -587,7 +587,6 @@ float	DxlServo::presentPos()	// Todo: test if division returns floating point nu
   float	val;
 
   val = ::dxl_read_word(_id, DxlServo::PRESENT_POS_L);
-  std::cout << "presentPos: val = " << (float)val << ", ret = " << val / (float)DxlServo::ANGLE_MAX << std::endl;
   _comStatus = ::dxl_get_result();
   return val / (float)DxlServo::ANGLE_MAX;
 }
