@@ -32,6 +32,9 @@
 #define TIMER_FREQ_HZ	20
 #define PLOT_MAX_S	30	// plot over 10s
 
+float	limit_high = 0.5;
+float	limit_low = 0.25;
+
 void	printDxlError(DxlServo& servo)
 {
   if (servo.errorComFailTx())
@@ -129,17 +132,17 @@ void	plot_stats(Gnuplot & gp, int x, double y1, double y2, double y3, double y4,
      << "set yrange [" << ymin << ":" << ymax << "]\n";
 
   gp << "plot "
-     << "'-' with lines title 'speed command'"
+     << "'-' with lines title 'position command'"
      << ", "
      << "'-' with lines title 'present speed'"
      << ", "
      << "'-' with lines title 'present position'"
      << ", "
-     << "'-' with lines title 'voltage'"
-     << ", "
      << "'-' with lines title 'temperature'"
      << ", "
      << "'-' with lines title 'torque'"
+     << ", "
+     << "'-' with lines title 'delta time (s) * 100'"
      << "\n";
 
   gp.send1d(y1Data);
@@ -170,27 +173,27 @@ int	do_sine(int servoId, float freq)
     }
   else
     std::cout << "Dxl servo " << servo.id() << " sucessfully initialized" << std::endl;
-  servo.setCWAngleLimit(0.25);
-  servo.setCCWAngleLimit(0.75);	// Servo now set to joint mode
+  servo.setCWAngleLimit(limit_low);
+  servo.setCCWAngleLimit(limit_high);	// Servo now set to joint mode
   while (42)
     {
       if (timer.canTick())
 	{
-	  float command = ::sin(2 * M_PI * freq * (timer.getTime() / 1000000.f));
+	  float command = (sin(2 * M_PI * freq * (timer.getTime() / 1000000.f))
+			   * ((limit_high - limit_low) / 2))
+	    + ((limit_high - limit_low) / 2)
+	    + limit_low;
 
-	  if (command < 0)
-	    servo.setGoalPos(0);
-	  else
-	    servo.setGoalPos(1);
-	  servo.setMovingSpeed(command);
+	  command = 0.35 + (rand() % 1000) / 50000.f;
+	  servo.setGoalPos(command);
 	  plot_stats(gp,
 		     timer.getTime() / 1000,
 		     command,
 		     servo.presentSpeed(),
 		     servo.presentPos(),
-		     servo.presentVoltage() / 100.f,
 		     servo.presentTemp() / 10.f,
-		     servo.presentLoad());
+		     servo.presentLoad(),
+		     timer.getDeltaTime() * 100);
 	}
       timer.endFrame();
     }
@@ -199,7 +202,7 @@ int	do_sine(int servoId, float freq)
 
 int	main(int argc, char **argv)
 {
-  float freq = 1.f / 3.f;		// Frequency of the sinusoid in Hz
+  float freq = 1.f / 5.f;		// Frequency of the sinusoid in Hz
   int	servoId = 1;
 
   if (argc > 1)
