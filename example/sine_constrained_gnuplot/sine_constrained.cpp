@@ -1,12 +1,24 @@
-//
-// sine_constrained.cpp for DxlServo
-//
-// Made by chauvo_t
-// Login   <chauvo_t@epitech.net>
-//
-// Started on  Mon Dec  7 00:25:05 2015 chauvo_t
-// Last update Tue Jan  5 12:08:39 2016 chauvo_t
-//
+/*
+ * Copyright (c) 2016 Thomas Chauvot de Beauchene
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include <cstdlib>
 #include <math.h>
@@ -17,7 +29,7 @@
 #include "DxlServo.hh"
 #include "Timer.hh"
 
-#define TIMER_FREQ_HZ	60
+#define TIMER_FREQ_HZ	20
 #define PLOT_MAX_S	30	// plot over 10s
 
 void	printDxlError(DxlServo& servo)
