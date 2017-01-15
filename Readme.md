@@ -1,5 +1,3 @@
-/!\ This library is still work in progress, please contact me or send a pull request if you find any bug or design flaw /!\  
-
 DxlServo is a C++ object/library made for simplifying the use of Dynamixel AX-12a servomotors in C++ projects.  
 
 This library aims at making the use of dynamixel servos more intuitive without loosing any of their wonderful features.  
